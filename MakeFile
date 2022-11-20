@@ -1,14 +1,21 @@
 BUILD:=./build
 
-
-all: ${BUILD}/boot/boot.o
+all: ${BUILD}/boot/boot.o ${BUILD}/boot/setup.o
 
 ${BUILD}/boot/%.o: ./kernel/boot/%.asm
 	$(shell mkdir -p ${BUILD}/boot)
 	nasm $< -o $@
 
+main:
+	gcc -Wall ./main.c ./tools/floppy.c ./tools/fileinfo.c -o ./main
+
+img:
+	$(shell ./main)
+
 clean:
 	$(shell rm -rf ${BUILD})
+	$(shell rm a.img)
+	$(shell rm main)
 
 bochs:
 	bochs -q -f bochsrc
