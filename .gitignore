@@ -3,3 +3,6 @@ cmake-build-debug/
 bx_enh_dbg.ini
 a.img
 .idea/
+kernel/
+main
+
