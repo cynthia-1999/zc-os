@@ -1,67 +1,54 @@
 //
-// Created by ziya on 2022/5/11.
+// Created by zc on 22-11-10.
 //
-
-#include "fileinfo.h"
 #include "common.h"
+#include "fileinfo.h"
 
-Fileinfo* read_file(const char* filename) {
-    if (NULL == filename) {
+FileInfo* readFile(char* filename){
+    if(!filename){
         return NULL;
     }
 
-    // 1 创建对象
-    Fileinfo* fileinfo = calloc(1, sizeof(Fileinfo));
-    if (NULL == fileinfo) {
-        perror("calloc fail: ");
+    FileInfo *file_info = calloc(1, sizeof(FileInfo));
+    if(!file_info){
+        perror("calloc failed.");
         exit(-1);
     }
 
-    fileinfo->name = filename;
+    file_info->name = filename;
 
-    // 2 打开文件
-    FILE* file = NULL;
-    if (NULL == (file = fopen(filename, "rb"))) {
-        perror("fopen fail");
-        exit(1);
+    FILE* file = fopen(filename, "rb");
+    if(!file){
+        perror("open file failed.");
+        exit(-1);
     }
 
-    // 3 获取文件大小
-    if (0 != fseek(file, 0, SEEK_END)) {
-        perror("fseek fail");
-        exit(1);
+    if(fseek(file, 0, SEEK_END) != 0){
+        perror("fseek failed.");
+        exit(-1);
     }
 
-    fileinfo->size = (int)ftell(file);
-    if (-1 == fileinfo->size) {
-        perror("ftell fail");
-        exit(1);
+    file_info->size = ftell(file);
+    if(file_info->size == -1){
+        perror("ftell error.");
+        exit(-1);
     }
 
-    // 文件指针还原
+    //还原文件指针
     fseek(file, 0, SEEK_SET);
+    file_info->content = calloc(1, file_info->size);
 
-    // 4 申请内存
-    fileinfo->content = calloc(1, fileinfo->size);
-    if (NULL == fileinfo->content) {
-        perror("calloc fail: ");
+    if(!file_info->content){
+        perror("file_info->content calloc failed.");
         exit(-1);
     }
 
-    // 5 文件读入
-    int readsize = fread(fileinfo->content, sizeof(char), fileinfo->size, file);
-    if (readsize != fileinfo->size) {
-        perror("fread fail: ");
+    int size = fread(file_info->content, 1, file_info->size, file);
+    if(size != file_info->size){
+        perror("read file failed.");
         exit(-1);
     }
 
-    // 6 关闭文件
     fclose(file);
-
-    return fileinfo;
+    return file_info;
 }
-
-
-
-
-

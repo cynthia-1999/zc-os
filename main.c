@@ -4,17 +4,19 @@
 #include "tools/fileinfo.h"
 #include "tools/floppy.h"
 
-int main(int argc, char** argv) {
+int main() {
 
     char* boot_filepath = "/home/ziya/CLionProjects/zc-os/build/boot/boot.o";
-    //char* boot_filepath = argv[0];
+    char* setup_filepath = "/home/ziya/CLionProjects/zc-os/build/boot/setup.o";
 
     Floppy* floppy = create_floppy();
 
-    Fileinfo* boot_fileinfo = read_file(boot_filepath);
-    write_bootloader(floppy, boot_fileinfo);
+    FileInfo * boot_fileinfo = readFile(boot_filepath);
+    write_boot_loader(floppy, boot_fileinfo);
 
-    char* image_path = argv[1];
+    FileInfo * setup_fileinfo = readFile(setup_filepath);
+    write_floppy_fileinfo(floppy, setup_fileinfo, 0, 0, 2);
+
     create_image("/home/ziya/CLionProjects/zc-os/a.img", floppy);
 
     return 0;
