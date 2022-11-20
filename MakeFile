@@ -1,8 +1,14 @@
 BUILD:=./build
 
-all: ${BUILD}/boot/boot.o ${BUILD}/boot/setup.o
+HD_IMG_NAME:= "hd.img"
 
-${BUILD}/boot/%.o: ./kernel/boot/%.asm
+all: ${BUILD}/boot/boot.o ${BUILD}/boot/setup.o
+	$(shell rm -rf $(HD_IMG_NAME))
+	bximage -q -hd=16 -func=create -sectsize=512 -imgmode=flat $(HD_IMG_NAME)
+	dd if=${BUILD}/boot/boot.o of=hd.img bs=512 seek=0 count=1 conv=notrunc
+	dd if=${BUILD}/boot/setup.o of=hd.img bs=512 seek=1 count=2 conv=notrunc
+
+${BUILD}/boot/%.o: kernel/boot/%.asm
 	$(shell mkdir -p ${BUILD}/boot)
 	nasm $< -o $@
 
@@ -15,13 +21,14 @@ img:
 clean:
 	$(shell rm -rf ${BUILD})
 	$(shell rm a.img)
+	$(shell rm hd.img)
 	$(shell rm main)
 
 bochs:
 	bochs -q -f bochsrc
 
-qemug:
-	qemu-system-x86_64 -m 32M -fda a.img -S -s
+qemug: all
+	qemu-system-x86_64 -hda hd.img -S -s
 
-qemu:
-	qemu-system-x86_64 -m 32M -fda a.img
+qemu: all
+	qemu-system-x86_64 -hda hd.img
