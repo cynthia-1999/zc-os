@@ -1,8 +1,7 @@
 build/
 cmake-build-debug/
 bx_enh_dbg.ini
-a.img
+*.img
 .idea/
 kernel/
 main
-
