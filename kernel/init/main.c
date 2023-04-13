@@ -4,15 +4,13 @@
 
 #include "../include/linux/tty.h"
 #include "../include/linux/kernel.h"
+#include "../include/linux/traps.h"
 
 void kernel_main(void) {
     console_init();
+    gdt_init();
 
-    char* s = "zc_os";
-
-    for (int i = 0; i < 2048; ++i) {
-        printk("name: %s, age:%d\n", s, i);
-    }
+    printk("zc_os");
 
     while (true);
 }
