@@ -11,7 +11,7 @@ void kernel_main(void) {
     gdt_init();
     idt_init();
 
-    printk("zc_os");
+    printk("zc_os\n");
 
     __asm__("sti;");
     while (true);
