@@ -20,6 +20,17 @@ typedef struct gdt_item_t{
     unsigned char base_high;       // 基地址 24 ~ 31 位
 } __attribute__((packed)) gdt_item_t;
 
+typedef struct idt_item_t{
+    unsigned short offset0;     // 段内偏移 0 ~ 15 位
+    unsigned short selector;   // 代码段选择子
+    unsigned char reserved;     // 保留不用
+    unsigned char type : 4;     // 任务门/中断门/陷阱门
+    unsigned char segment : 1;  // segment = 0 表示系统段
+    unsigned char DPL : 2;      // 使用 int 指令访问的最低权限
+    unsigned char present : 1;  // 是否有效
+    unsigned short offset1;     // 段内偏移 16 ~ 31 位
+}__attribute__((packed)) idt_item_t;
+
 typedef struct gdt_selector_t{
     char RPL : 2;
     char TI : 1;
@@ -27,10 +38,10 @@ typedef struct gdt_selector_t{
 } __attribute__((packed)) gdt_selector_t;
 
 #pragma pack(2)
-typedef struct rgdt_ptr_t{
+typedef struct xdt_ptr_t{
     short   limit;
     unsigned long long int **base;    // 这个base需要大端存储，默认是小端存储
-} rgdt_ptr_t;
+} xdt_ptr_t;
 #pragma pack()
 
 #endif //ZC_OS_HEAD_H

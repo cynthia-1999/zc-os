@@ -9,4 +9,8 @@
 
 void gdt_init();
 
+void idt_init();
+
+void write_xdt_ptr(xdt_ptr_t* p, short limit, int base);
+
 #endif //ZC_OS_TRAPS_H

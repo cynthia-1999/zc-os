@@ -10,7 +10,7 @@
 
 u64 gdt[GDT_SIZE] = {0};
 
-rgdt_ptr_t gdt_ptr;         // gdtr寄存器
+xdt_ptr_t gdt_ptr;         // gdtr寄存器
 
 int r3_code_selector;
 int r3_data_selector;
