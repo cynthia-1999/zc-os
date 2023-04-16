@@ -4,6 +4,7 @@
 extern printk
 extern keymap_handler
 extern exception_handler
+extern clock_handler
 
 global interrupt_handler_entry
 interrupt_handler_entry:
@@ -18,6 +19,15 @@ global keymap_handler_entry
 keymap_handler_entry:
     push 0x21
     call keymap_handler
+    add esp, 4
+
+    iret
+
+; 时钟中断
+global clock_handler_entry
+clock_handler_entry:
+    push 0x20
+    call clock_handler
     add esp, 4
 
     iret

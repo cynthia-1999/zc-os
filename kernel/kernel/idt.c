@@ -13,6 +13,7 @@ xdt_ptr_t idt_ptr;
 
 extern void interrupt_handler_entry();
 extern void keymap_handler_entry();
+extern void clock_handler_entry();
 
 extern int interrupt_handler_table[0x2f];
 
@@ -25,6 +26,9 @@ void idt_init(){
         int handler = interrupt_handler_entry;
         if(i < 0x15){
             handler = interrupt_handler_table[i];
+        }
+        if(i == 0x20){
+            handler = clock_handler_entry;
         }
         if(i == 0x21){
             handler = keymap_handler_entry;
