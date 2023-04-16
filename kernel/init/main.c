@@ -14,5 +14,7 @@ void kernel_main(void) {
     printk("zc_os\n");
 
     __asm__("sti;");
+
+    int i = 10 / 0;
     while (true);
 }

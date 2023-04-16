@@ -11,8 +11,10 @@
 idt_item_t interrupt_table[INTERRUPT_TABLE_SIZE] = {0};
 xdt_ptr_t idt_ptr;
 
-extern void interrupt_handler();
+extern void interrupt_handler_entry();
 extern void keymap_handler_entry();
+
+extern int interrupt_handler_table[0x2f];
 
 void idt_init(){
     printk("init idt...\n");
@@ -20,7 +22,10 @@ void idt_init(){
     for (int i = 0; i < INTERRUPT_TABLE_SIZE; i++){
         idt_item_t* p = &interrupt_table[i];
 
-        int handler = interrupt_handler;
+        int handler = interrupt_handler_entry;
+        if(i < 0x15){
+            handler = interrupt_handler_table[i];
+        }
         if(i == 0x21){
             handler = keymap_handler_entry;
         }
