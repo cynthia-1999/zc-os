@@ -5,6 +5,7 @@
 #include "../include/linux/tty.h"
 #include "../include/linux/kernel.h"
 #include "../include/linux/traps.h"
+#include "../include/linux/memory.h"
 
 void kernel_main(void) {
     console_init();
@@ -13,6 +14,8 @@ void kernel_main(void) {
     init_timer();
 
     printk("zc_os\n");
+
+    print_memory_info();
 
     __asm__("sti;");
 

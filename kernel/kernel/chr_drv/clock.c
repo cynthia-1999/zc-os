@@ -29,11 +29,9 @@ void frequency_set(unsigned char counter_port, unsigned char counter_no, unsigne
 // 初始化PIT8253
 void init_timer(){
     printk("init timer...\n");
-    BOCHS_DEBUG_MAGIC
     //设置8253的定时周期，也就是发生中断的周期
     frequency_set(COUNTER0_PORT, COUNTER0_NO, READ_WRITE_LATCH, COUNTER0_MODE, COUNTER0_VALUE);
     printk("init timer done...\n");
-    BOCHS_DEBUG_MAGIC
 }
 
 void clock_handler(int idt_index) {

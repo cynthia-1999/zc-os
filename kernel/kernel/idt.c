@@ -47,7 +47,5 @@ void idt_init(){
     // 让CPU知道中断向量表
     write_xdt_ptr(&idt_ptr, INTERRUPT_TABLE_SIZE*8, interrupt_table);
 
-    BOCHS_DEBUG_MAGIC
-
     asm volatile("lidt idt_ptr;");
 }

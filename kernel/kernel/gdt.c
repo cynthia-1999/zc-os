@@ -81,5 +81,4 @@ void gdt_init(){
     gdt_ptr.limit = sizeof(gdt) - 1;
 
     __asm__ volatile ("lgdt gdt_ptr");
-    BOCHS_DEBUG_MAGIC;
 }

@@ -25,7 +25,6 @@ boot_start:
     mov si, jump_to_setup_msg
     call print
 
-    xchg bx, bx
     jmp BOOT_MAIN_ADDR
 
 read_hd:
