@@ -24,4 +24,26 @@ typedef struct{
 
 void print_memory_info();
 
+// physics management
+typedef struct{
+    uint addr_start;        //可用内存起始地址 一般是1M
+    uint addr_end;          //可用内存终止地址
+    uint valid_mem_size;
+    uint pages_total;       //机器物理地址共多少page
+    uint pages_free;        //物理内存还剩多少page
+    uint pages_used;        //物理内存用了多少page
+}physics_memory_info_t;
+
+typedef struct{
+    uint addr_base;         //可用物理内存开始位置 3M
+    uint pages_total;       //共有对少page 机器物理内存共多少page
+    uint bitmap_item_used;  //如果1B映射一个page，共用了多少page
+    uchar* map;
+}physics_memory_map_t;
+
+void memory_init();
+void memory_map_init();
+void* get_free_page();
+void free_page(void* p);
+
 #endif //ZC_OS_MEMORY_H
