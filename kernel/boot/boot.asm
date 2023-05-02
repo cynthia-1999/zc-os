@@ -46,7 +46,6 @@ read_hd:
     ; 0x1f5 8bit lba地址的高八位 16-23 或CHS地址柱面号的高8位
     inc dx
     shr ecx, 16
-    xchg bx, bx
     mov al, cl
     out dx, al
 

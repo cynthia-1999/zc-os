@@ -22,8 +22,6 @@ typedef struct{
     memory_info_item_t* data;
 }memory_info_t;
 
-void print_memory_info();
-
 // physics management
 typedef struct{
     uint addr_start;        //可用内存起始地址 一般是1M
@@ -40,10 +38,13 @@ typedef struct{
     uint bitmap_item_used;  //如果1B映射一个page，共用了多少page
     uchar* map;
 }physics_memory_map_t;
+void print_memory_info();
 
 void memory_init();
 void memory_map_init();
 void* get_free_page();
 void free_page(void* p);
+
+void virtual_memory_init();
 
 #endif //ZC_OS_MEMORY_H

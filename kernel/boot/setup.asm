@@ -105,6 +105,7 @@ enter_protected_mode:
     or eax, 1
     mov cr0, eax
 
+    xchg bx, bx
     jmp CODE_SELECTOR:protected_mode
 
 get_memory_info_error:
@@ -145,10 +146,8 @@ protected_mode:
    mov edi, KERNEL_ADDR
    mov ecx, 3   ; start
    mov bl, 60   ; count
-   xchg bx, bx
    call read_hd
 
-   xchg bx, bx
    jmp CODE_SELECTOR:KERNEL_ADDR
 
 read_hd:
