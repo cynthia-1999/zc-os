@@ -45,6 +45,6 @@ void memory_map_init();
 void* get_free_page();
 void free_page(void* p);
 
-void virtual_memory_init();
+void* virtual_memory_init();
 
 #endif //ZC_OS_MEMORY_H

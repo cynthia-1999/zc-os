@@ -6,9 +6,17 @@
 #include "../include/linux/kernel.h"
 #include "../include/string.h"
 
-void virtual_memory_init(){
+/**
+ * 一个pdt 4k 0x1000
+ * 4g内存需要的页表：(0x1000/4)* (0x1000/4) * 0x1000
+ * @return
+ */
+
+#define PDT_START_ADDR 0x20000
+
+void* virtual_memory_init(){
     // 分配页目录表内存
-    int* pdt = (int*)get_free_page();
+    int* pdt = (int*)PDT_START_ADDR;
 
     // 清0
     memset(pdt, 0, PAGE_SIZE);
@@ -16,7 +24,7 @@ void virtual_memory_init(){
     //设置页目录表的四个表项
     for(int i = 0; i < 4; ++i){
         //分配pde对应的页表
-        int ptt = (int)get_free_page();
+        int ptt = (int)PDT_START_ADDR + (i+1) * 0x1000;
         // pdt里面的每项，即pde，内容是ptt + 尾12位的权限位
         int pde = 0b00000000000000000000000000000111 | ptt;
 
@@ -53,4 +61,6 @@ void virtual_memory_init(){
     enable_page();
 
     BOCHS_DEBUG_MAGIC
+
+    return pdt;
 }
