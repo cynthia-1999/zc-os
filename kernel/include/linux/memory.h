@@ -42,9 +42,15 @@ void print_memory_info();
 
 void memory_init();
 void memory_map_init();
+
+void* virtual_memory_init();
+
+// 分配、释放物理页
 void* get_free_page();
 void free_page(void* p);
 
-void* virtual_memory_init();
+// 分配、释放虚拟内存
+void* kmalloc(size_t len);
+void kfree_s(void *obj, int size);
 
 #endif //ZC_OS_MEMORY_H

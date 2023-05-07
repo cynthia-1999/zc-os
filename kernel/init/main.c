@@ -22,6 +22,11 @@ void kernel_main(void) {
 
     virtual_memory_init();
 
+    void *p = kmalloc(1);
+    printk("0x%p\n", p);
+    void* p1 = kmalloc(2);
+    printk("0x%p\n", p1);
+    kfree_s(p, 1);
 
     __asm__("sti;");
 

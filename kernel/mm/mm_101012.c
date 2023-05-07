@@ -12,7 +12,11 @@
  * @return
  */
 
+// 页表从0x20000开始存
 #define PDT_START_ADDR 0x20000
+
+// 线性地址从2M开始用
+#define VIRTUAL_MEM_START 0x200000
 
 void* virtual_memory_init(){
     // 分配页目录表内存
