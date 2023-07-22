@@ -37,4 +37,9 @@ void sched() {
 
         return;
     }
+    next->state = TASK_RUNNING;
+
+    current = next;
+
+    switch_task(next);
 }
