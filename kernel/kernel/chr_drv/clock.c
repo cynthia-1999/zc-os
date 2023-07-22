@@ -5,6 +5,7 @@
 #include "../../include/linux/traps.h"
 #include "../../include/asm/io.h"
 #include "../../include/asm/system.h"
+#include "../../include/linux/sched.h"
 
 #define IRQ0_FREQUENCY  100
 #define INPUT_FREQUENCY 1193180
@@ -38,4 +39,6 @@ void clock_handler(int idt_index) {
     //send_eoi(idt_index);
 
     printk("clock handler: 0x%x\n", idt_index);
+
+    do_timer();
 }

@@ -61,7 +61,10 @@ task_union_t* create_task(char* name, task_fun_t fun, int priority) {
 }
 
 void* t1_fun(void* arg) {
-    printk("t1\n");
+//    for (int i = 0; i < 10; ++i) {
+//        printk("t1 print %d\n", i);
+//    }
+    printk("t1 \n");
 }
 
 void* idle(void* arg) {
@@ -71,9 +74,9 @@ void* idle(void* arg) {
     while (true) {
         printk("#2 idle task running...\n");
 
-//        __asm__ volatile ("sti;");
-//        __asm__ volatile ("hlt;");
-        sched();
+        __asm__ volatile ("sti;");
+        __asm__ volatile ("hlt;");
+//        sched();
     }
 }
 
@@ -87,6 +90,10 @@ pid_t get_task_pid(task_t* task) {
 
 pid_t get_task_ppid(task_t* task) {
     return task->ppid;
+}
+
+int inc_scheduling_times(task_t* task) {
+    return task->scheduling_times++;
 }
 
 void task_exit(int code, task_t* task) {

@@ -4,6 +4,8 @@
 extern current
 extern task_exit
 extern sched
+extern inc_scheduling_times
+extern get_task_ppid
 
 ; 切idle任务专用
 global switch_idle_task

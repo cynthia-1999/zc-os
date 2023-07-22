@@ -83,5 +83,7 @@ void task_init();
 pid_t get_task_pid(task_t* task);
 pid_t get_task_ppid(task_t* task);
 
+int inc_scheduling_times(task_t* task);
+
 
 #endif //ZC_OS_TASK_H

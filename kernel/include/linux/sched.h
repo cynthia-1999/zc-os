@@ -7,4 +7,6 @@
 
 void sched();
 
+void do_timer();
+
 #endif //ZC_OS_SCHED_H
