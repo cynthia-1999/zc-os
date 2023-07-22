@@ -16,6 +16,7 @@
 #define false 0
 
 typedef unsigned int size_t;
+typedef unsigned int pid_t;
 
 typedef long long int64;
 

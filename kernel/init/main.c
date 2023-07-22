@@ -7,6 +7,8 @@
 #include "../include/linux/traps.h"
 #include "../include/linux/memory.h"
 #include "../include/asm/system.h"
+#include "../include/linux/task.h"
+#include "../include/linux/sched.h"
 
 void kernel_main(void) {
     console_init();
@@ -22,11 +24,9 @@ void kernel_main(void) {
 
     virtual_memory_init();
 
-    void *p = kmalloc(1);
-    printk("0x%p\n", p);
-    void* p1 = kmalloc(2);
-    printk("0x%p\n", p1);
-    kfree_s(p, 1);
+    task_init();
+
+    sched();
 
     __asm__("sti;");
 
