@@ -64,12 +64,25 @@ void* t1_fun(void* arg) {
     for (int i = 0; i < 0xffff; ++i) {
         printk("t1 print %d\n", i);
     }
-//    printk("t1 \n");
+}
+
+void* t2_fun(void* arg) {
+    for (int i = 0; i < 0xffff; ++i) {
+        printk("t2 print %d\n", i);
+    }
+}
+
+void* t3_fun(void* arg) {
+    for (int i = 0; i < 0xffff; ++i) {
+        printk("t3 print %d\n", i);
+    }
 }
 
 void* idle(void* arg) {
     printk("#1 idle task running...\n");
     create_task("t1", t1_fun, 1);
+    create_task("t2", t2_fun, 1);
+    create_task("t3", t3_fun, 1);
 
     while (true) {
         printk("#2 idle task running...\n");
