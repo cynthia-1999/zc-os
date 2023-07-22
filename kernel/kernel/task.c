@@ -67,11 +67,11 @@ task_union_t* create_task(char* name, task_fun_t fun, int priority) {
 }
 
 void* t1_fun(void* arg) {
-    for (int i = 0; i < 0xffff; ++i) {
-        printk("t1 print %d\n", i);
-
-        task_sleep(100);
-    }
+//    for (int i = 0; i < 0xffff; ++i) {
+//        printk("t1 print %d\n", i);
+    printk("t1 \n");
+//        task_sleep(100);
+//    }
 }
 
 void* t2_fun(void* arg) {
@@ -92,12 +92,12 @@ void* t3_fun(void* arg) {
 
 void* idle(void* arg) {
     printk("#1 idle task running...\n");
-    create_task("t1", t1_fun, 1);
-    create_task("t2", t2_fun, 2);
-    create_task("t3", t3_fun, 3);
+    create_task("t1", t1_fun, 2);
+    create_task("t2", t2_fun, 3);
+    create_task("t3", t3_fun, 4);
 
     while (true) {
-        printk("#2 idle task running...\n");
+//        printk("#2 idle task running...\n");
 
         __asm__ volatile ("sti;");
         __asm__ volatile ("hlt;");
