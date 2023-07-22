@@ -6,6 +6,7 @@
 #include "../../include/asm/io.h"
 #include "../../include/asm/system.h"
 #include "../../include/linux/sched.h"
+#include "../../include/linux/task.h"
 
 #define IRQ0_FREQUENCY  100
 #define INPUT_FREQUENCY 1193180
@@ -15,6 +16,11 @@
 #define COUNTER0_MODE   2
 #define READ_WRITE_LATCH   3
 #define PIT_CONTROL_PORT   0x43
+
+// 10ms触发一次中断
+#define JIFFY (1000 / IRQ0_FREQUENCY)
+int jiffy = JIFFY;
+int cpu_tickes = 0;
 
 // 通过对8253定时器进行设置，修改时钟中断的频率
 // 把操作的计数器counter_no、读写锁属性rwl、计数器模式counter_mode写入模式控制寄存器并赋予初始值counter_value
@@ -37,6 +43,10 @@ void init_timer(){
 
 void clock_handler(int idt_index) {
     //send_eoi(idt_index);
+
+    cpu_tickes++;
+
+    task_wakeup();
 
     printk("clock handler: 0x%x\n", idt_index);
 

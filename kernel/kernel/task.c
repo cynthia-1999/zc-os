@@ -9,6 +9,10 @@
 
 task_t* tasks[NR_TASKS] = {0};
 extern task_t* current;
+extern int jiffy;
+extern int cpu_tickes;
+
+extern void sched_task();
 
 int find_empty_process() {
     int ret = 0;
@@ -65,18 +69,24 @@ task_union_t* create_task(char* name, task_fun_t fun, int priority) {
 void* t1_fun(void* arg) {
     for (int i = 0; i < 0xffff; ++i) {
         printk("t1 print %d\n", i);
+
+        task_sleep(100);
     }
 }
 
 void* t2_fun(void* arg) {
     for (int i = 0; i < 0xffff; ++i) {
         printk("t2 print %d\n", i);
+
+        task_sleep(50);
     }
 }
 
 void* t3_fun(void* arg) {
     for (int i = 0; i < 0xffff; ++i) {
         printk("t3 print %d\n", i);
+
+        task_sleep(30);
     }
 }
 
@@ -128,6 +138,37 @@ void task_exit(int code, task_t* task) {
             kfree_s(tmp, 4096);
 
             break;
+        }
+    }
+}
+
+void task_sleep(int ms){
+    CLI
+
+    if(NULL == current){
+        printk("task sleep: current task is null\n");
+        return;
+    }
+
+    int ticks = ms / jiffy;
+    ticks += (0 == (ms % jiffy)) ? 0 : 1;
+
+    current->counter = cpu_tickes + ticks;
+    current->state = TASK_SLEEPING;
+
+    sched_task();
+}
+
+void task_wakeup() {
+    for (int i = 1; i < NR_TASKS; ++i) {
+        task_t* task = tasks[i];
+
+        if (NULL == task) continue;
+        if (TASK_SLEEPING != task->state) continue;
+
+        if (cpu_tickes >= task->counter) {
+            task->state = TASK_READY;
+            task->counter = task->priority;
         }
     }
 }

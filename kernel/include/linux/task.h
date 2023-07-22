@@ -85,5 +85,8 @@ pid_t get_task_ppid(task_t* task);
 
 int inc_scheduling_times(task_t* task);
 
+void task_sleep(int ms);
+void task_wakeup();
+
 
 #endif //ZC_OS_TASK_H
