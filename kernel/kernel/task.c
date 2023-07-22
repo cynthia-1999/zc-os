@@ -39,6 +39,8 @@ task_union_t* create_task(char* name, task_fun_t fun, int priority) {
     task_union->task.pid = find_empty_process();
     task_union->task.ppid = (NULL == current)? 0 : current->pid;
 
+    task_union->task.priority = priority;
+    task_union->task.counter = priority;
     task_union->task.scheduling_times = 0;
 
     strcpy(task_union->task.name, name);
@@ -81,8 +83,8 @@ void* t3_fun(void* arg) {
 void* idle(void* arg) {
     printk("#1 idle task running...\n");
     create_task("t1", t1_fun, 1);
-    create_task("t2", t2_fun, 1);
-    create_task("t3", t3_fun, 1);
+    create_task("t2", t2_fun, 2);
+    create_task("t3", t3_fun, 3);
 
     while (true) {
         printk("#2 idle task running...\n");
