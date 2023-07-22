@@ -43,7 +43,21 @@ switch_task:
     mov esp, [eax + 4]
     mov ebp, [eax + 15 * 4]
 
-    ; 压入返回地址，在task运行完成之后在任务队列清除自己的内存，并回收内存
+    push eax                        ; 获取父进程ID，如果不为0表示子进程，不需要压入task_exit_handler
+    call get_task_ppid
+    add esp, 4
+    cmp eax, 0
+    jne .recover_env
+
+    mov eax, [current]
+    push eax
+    call inc_scheduling_times
+    add esp, 4
+
+    cmp eax, 0
+    jne .recover_env                ; 不是第一次调度
+
+    ; 如果是第一次調度
     mov eax, task_exit_handler
     push eax
 

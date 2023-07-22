@@ -26,10 +26,7 @@ void kernel_main(void) {
 
     task_init();
 
-    sched();
-
     __asm__("sti;");
 
-    //int i = 10 / 0;
     while (true);
 }

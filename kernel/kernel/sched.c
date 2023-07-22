@@ -19,6 +19,12 @@ task_t* find_ready_task() {
         task_t* task = tasks[i];
 
         if (NULL == task) continue;
+
+        // 实现程序继续执行
+        if(current == task && TASK_RUNNING == task->state){
+            task->state = TASK_READY;
+        }
+
         if (TASK_READY != task->state) continue;
 
         next = task;

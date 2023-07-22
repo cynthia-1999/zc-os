@@ -61,10 +61,10 @@ task_union_t* create_task(char* name, task_fun_t fun, int priority) {
 }
 
 void* t1_fun(void* arg) {
-//    for (int i = 0; i < 10; ++i) {
-//        printk("t1 print %d\n", i);
-//    }
-    printk("t1 \n");
+    for (int i = 0; i < 0xffff; ++i) {
+        printk("t1 print %d\n", i);
+    }
+//    printk("t1 \n");
 }
 
 void* idle(void* arg) {
