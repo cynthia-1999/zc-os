@@ -10,6 +10,12 @@
 #include "../include/linux/task.h"
 #include "../include/linux/sched.h"
 
+void user_mode() {
+    int test = "test";
+
+    while(true);
+}
+
 void kernel_main(void) {
     console_init();
     gdt_init();

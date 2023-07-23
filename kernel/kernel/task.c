@@ -13,6 +13,7 @@ extern int jiffy;
 extern int cpu_tickes;
 
 extern void sched_task();
+extern void move_to_user_mode();
 
 int find_empty_process() {
     int ret = 0;
@@ -66,35 +67,8 @@ task_union_t* create_task(char* name, task_fun_t fun, int priority) {
     return task_union;
 }
 
-void* t1_fun(void* arg) {
-//    for (int i = 0; i < 0xffff; ++i) {
-//        printk("t1 print %d\n", i);
-    printk("t1 \n");
-//        task_sleep(100);
-//    }
-}
-
-void* t2_fun(void* arg) {
-    for (int i = 0; i < 0xffff; ++i) {
-        printk("t2 print %d\n", i);
-
-        task_sleep(50);
-    }
-}
-
-void* t3_fun(void* arg) {
-    for (int i = 0; i < 0xffff; ++i) {
-        printk("t3 print %d\n", i);
-
-        task_sleep(30);
-    }
-}
-
 void* idle(void* arg) {
-    printk("#1 idle task running...\n");
-    create_task("t1", t1_fun, 2);
-    create_task("t2", t2_fun, 3);
-    create_task("t3", t3_fun, 4);
+    create_task("init", move_to_user_mode, 1);
 
     while (true) {
 //        printk("#2 idle task running...\n");
@@ -106,7 +80,7 @@ void* idle(void* arg) {
 }
 
 void task_init() {
-    create_task("idle", idle, 1);
+    create_task("idle", idle, 0);
 }
 
 pid_t get_task_pid(task_t* task) {
@@ -171,4 +145,12 @@ void task_wakeup() {
             task->counter = task->priority;
         }
     }
+}
+
+int get_esp3(task_t* task) {
+    return task->esp3;
+}
+
+void set_esp3(task_t* task, int esp) {
+    task->tss.esp = esp;
 }

@@ -88,5 +88,7 @@ int inc_scheduling_times(task_t* task);
 void task_sleep(int ms);
 void task_wakeup();
 
+int get_esp3(task_t* task);
+void set_esp3(task_t* task, int esp);
 
 #endif //ZC_OS_TASK_H
