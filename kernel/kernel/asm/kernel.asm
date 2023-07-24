@@ -19,6 +19,7 @@ R3_DATA_SELECTOR equ (5 << 3 | 0b11)
 ; esp3
 ; ss3
 move_to_user_mode:
+    xchg bx, bx
     mov esi, [current]
 
     push esi

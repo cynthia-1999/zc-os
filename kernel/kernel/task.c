@@ -62,6 +62,13 @@ task_union_t* create_task(char* name, task_fun_t fun, int priority) {
 
     task_union->task.tss.esp0 = task_union->task.esp0;
 
+    // r3 stack
+    task_union->task.esp3 = kmalloc(4096) + PAGE_SIZE;
+    task_union->task.ebp3 = task_union->task.esp3;
+
+    task_union->task.tss.esp = task_union->task.esp3;
+    task_union->task.tss.ebp = task_union->task.ebp3;
+
     task_union->task.state = TASK_READY;
 
     return task_union;
@@ -75,7 +82,6 @@ void* idle(void* arg) {
 
         __asm__ volatile ("sti;");
         __asm__ volatile ("hlt;");
-//        sched();
     }
 }
 
